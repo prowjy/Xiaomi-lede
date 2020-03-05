@@ -13,7 +13,7 @@ on:
     types: published
   push:
     branches:
-      - master
+      - dev-lean-lede
     paths:
       - '.config'
 #  schedule:
@@ -22,8 +22,8 @@ on:
 #    types: started
 
 env:
-  REPO_URL: https://github.com/coolsnowwolf/lede
-  REPO_BRANCH: master
+  REPO_URL: https://github.com/Lienol/openwrt
+  REPO_BRANCH: dev-lean-lede
   CONFIG_FILE: .config
   DIY_SH: diy.sh
   SSH_ACTIONS: false
@@ -112,3 +112,11 @@ jobs:
       with:
         name: OpenWrt_firmware
         path: ${{ env.FIRMWARE }}
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v1-release
+      with:
+        repo_token: ${{ secrets.repo_token }}
+        file: ${{ env.FIRMWARE }}/*.bin
+        tag: AtuoBuild
+        overwrite: true
+        file_glob: true 
